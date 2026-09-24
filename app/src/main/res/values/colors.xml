@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary_green">#1DB954</color>
+    <color name="primary_glow">#00FFA3</color>
+    <color name="bg_dark">#0B0B0E</color>
+    <color name="bg_surface">#121218</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="launcher_background">#0B0B0E</color>
+</resources>

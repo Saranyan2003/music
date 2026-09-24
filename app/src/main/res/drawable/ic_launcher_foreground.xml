@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        android:translateX="27"
+        android:translateY="27">
+        <!-- Ticket2Grow Stylized T & Growth Symbol -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M15,10 L93,10 L93,28 L64,28 L64,98 L44,98 L44,28 L15,28 Z" />
+        <path
+            android:fillColor="#1DB954"
+            android:pathData="M68,54 C79,54 88,61 88,72 C88,83 77,94 62,101 L93,101 L93,108 L50,108 C50,93 66,85 75,78 C79,74 81,72 81,68 C81,63 75,59 70,59 C64,59 60,63 58,67 L50,61 C54,54 61,54 68,54 Z" />
+        <!-- Arrow -->
+        <path
+            android:fillColor="#00FFA3"
+            android:pathData="M78,38 L98,38 L98,58 L91,58 L91,48 L72,67 L67,62 L86,43 L78,43 Z" />
+    </group>
+</vector>

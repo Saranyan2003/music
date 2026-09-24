@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ticket2Grow - Premium, free and open music and podcast streaming platform with zero restrictions.">
+  <title>Ticket2Grow - Stream Music & Podcasts Freely</title>
+  
+  <!-- Favicon & PWA App Icons -->
+  <link rel="icon" type="image/svg+xml" href="ticket2grow_app_icon.svg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1DB954">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Ticket2Grow">
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container" id="app">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-wrapper">
+          <div class="logo-icon-box">
+            <svg viewBox="0 0 512 512" class="brand-icon-svg">
+              <defs>
+                <linearGradient id="brandGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#1DB954"/>
+                  <stop offset="100%" stop-color="#00FFA3"/>
+                </linearGradient>
+              </defs>
+              <rect width="512" height="512" rx="115" fill="#121218"/>
+              <g transform="translate(116, 126)">
+                <path d="M 40 20 L 240 20 L 240 70 L 165 70 L 165 240 L 115 240 L 115 70 L 40 70 Z" fill="#FFFFFF"/>
+                <path d="M 175 140 C 205 140 230 160 230 190 C 230 220 200 250 160 270 L 240 270 L 240 290 L 130 290 C 130 250 170 230 195 210 C 205 200 210 195 210 185 C 210 170 195 160 180 160 C 165 160 155 170 150 180 L 130 165 C 140 148 158 140 175 140 Z" fill="url(#brandGrad)"/>
+                <polygon points="210,100 260,100 260,150 242,150 242,125 195,172 182,159 229,112 210,112" fill="url(#brandGrad)"/>
+              </g>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-title">Ticket<span class="brand-highlight">2Grow</span></span>
+            <span class="brand-badge">UNLIMITED</span>
+          </div>
+        </div>
+        <button class="mobile-close-btn" id="closeSidebarBtn" aria-label="Close Sidebar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <nav class="nav-menu">
+        <p class="menu-label">DISCOVER</p>
+        <button class="nav-item active" data-view="home">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </button>
+        <button class="nav-item" data-view="radio">
+          <i class="fa-solid fa-radio"></i>
+          <span>Live Hit Radio</span>
+          <span class="live-badge-mini">LIVE</span>
+        </button>
+        <button class="nav-item" data-view="explore">
+          <i class="fa-solid fa-compass"></i>
+          <span>Explore & Genres</span>
+        </button>
+        <button class="nav-item" data-view="podcasts">
+          <i class="fa-solid fa-podcast"></i>
+          <span>Podcasts & Shows</span>
+        </button>
+        <button class="nav-item" data-view="equalizer">
+          <i class="fa-solid fa-sliders"></i>
+          <span>Audio Studio & EQ</span>
+        </button>
+        <button class="nav-item" data-view="visualizer-view">
+          <i class="fa-solid fa-chart-simple"></i>
+          <span>Live Visualizer</span>
+        </button>
+      </nav>
+
+      <div class="nav-divider"></div>
+
+      <div class="library-section">
+        <div class="library-header">
+          <p class="menu-label">YOUR LIBRARY</p>
+          <button class="icon-btn-small" id="createPlaylistBtn" title="Create New Playlist">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </div>
+
+        <button class="nav-item" data-view="liked">
+          <i class="fa-solid fa-heart text-green"></i>
+          <span>Liked Songs</span>
+          <span class="count-pill" id="likedCountPill">0</span>
+        </button>
+
+        <button class="nav-item" data-view="local-files">
+          <i class="fa-solid fa-folder-open text-cyan"></i>
+          <span>Local Audio Files</span>
+          <span class="count-pill" id="localCountPill">0</span>
+        </button>
+
+        <div class="custom-playlists-list" id="customPlaylistsList">
+          <!-- Dynamically populated playlists -->
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="import-card">
+          <i class="fa-solid fa-cloud-arrow-up import-icon"></i>
+          <div class="import-info">
+            <strong>Import Your Audio</strong>
+            <span>Play your local MP3 & WAV tracks</span>
+          </div>
+          <label for="audioFileInput" class="btn-import-file">
+            <i class="fa-solid fa-file-audio"></i> Choose Files
+          </label>
+          <input type="file" id="audioFileInput" multiple accept="audio/*" style="display:none;">
+        </div>
+
+        <div class="pro-status-banner">
+          <i class="fa-solid fa-shield-halved"></i>
+          <div>
+            <strong>100% Free & Open</strong>
+            <small>No Ads &bull; No Login &bull; HD Audio</small>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content" id="mainContent">
+      
+      <!-- Sticky Topbar Header -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-btn mobile-menu-btn" id="openSidebarBtn" aria-label="Toggle menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          
+          <div class="nav-history-btns">
+            <button class="icon-btn" id="historyBackBtn" title="Go Back"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="icon-btn" id="historyForwardBtn" title="Go Forward"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="globalSearchInput" placeholder="Search songs, artists, podcasts, or genres..." autocomplete="off">
+            <button class="clear-search-btn" id="clearSearchBtn" style="display: none;"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Audio Visualizer Toggle Pill -->
+          <button class="pill-btn visualizer-pill" id="topVisualizerToggle" title="Toggle Real-time Audio Spectrum">
+            <span class="live-indicator"></span>
+            <i class="fa-solid fa-wave-square"></i>
+            <span>Visualizer</span>
+          </button>
+
+          <!-- Sleep Timer button -->
+          <button class="icon-btn" id="sleepTimerBtn" title="Set Sleep Timer">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+
+          <!-- Studio Equalizer -->
+          <button class="icon-btn" id="quickEqBtn" title="Audio Equalizer & Bass Boost">
+            <i class="fa-solid fa-sliders"></i>
+          </button>
+
+          <!-- User Badge / Branding -->
+          <div class="user-chip">
+            <img src="ticket2grow_app_icon.svg" alt="Ticket2Grow Profile" class="avatar-img">
+            <span class="user-name">Ticket2Grow VIP</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Category Filter Pills -->
+      <div class="genre-pill-bar" id="genrePillBar">
+        <button class="filter-pill active" data-filter="all">All</button>
+        <button class="filter-pill" data-filter="Tamil">🔥 Tamil Superhits</button>
+        <button class="filter-pill" data-filter="Electronic">Electronic & EDM</button>
+        <button class="filter-pill" data-filter="Lo-Fi">Lo-Fi & Study</button>
+        <button class="filter-pill" data-filter="Synthwave">Synthwave</button>
+        <button class="filter-pill" data-filter="Ambient">Ambient & Chill</button>
+        <button class="filter-pill" data-filter="Indie">Acoustic & Indie</button>
+        <button class="filter-pill" data-filter="Podcast">Podcasts & Mindset</button>
+      </div>
+
+      <!-- VIEW CONTAINER -->
+      <div class="views-wrapper" id="viewsWrapper">
+        
+        <!-- 1. HOME VIEW -->
+        <section class="view-section active" id="viewHome">
+          
+          <!-- Hero Banner -->
+          <div class="hero-banner">
+            <div class="hero-content">
+              <span class="hero-tag"><i class="fa-solid fa-bolt"></i> FEATURED STREAM</span>
+              <h1 class="hero-title">Experience Sound Without Limits</h1>
+              <p class="hero-desc">Welcome to <strong>Ticket2Grow</strong>. Stream high-fidelity curated audio, live Tamil superhits, global radio, lo-fi beats, synthwave rhythms, and podcasts. Zero login, zero interruptions.</p>
+              <div class="hero-actions">
+                <button class="btn-primary" id="heroPlayAllBtn">
+                  <i class="fa-solid fa-play"></i> Play Featured Mix
+                </button>
+                <button class="btn-secondary" id="heroImportBtn">
+                  <i class="fa-solid fa-plus"></i> Import My Music
+                </button>
+              </div>
+            </div>
+            <div class="hero-visual">
+              <div class="vinyl-disc-hero" id="heroVinyl">
+                <div class="vinyl-inner">
+                  <img src="ticket2grow_app_icon.svg" alt="Ticket2Grow">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Access Cards Grid -->
+          <div class="section-block">
+            <div class="section-header">
+              <h2><i class="fa-solid fa-fire text-orange"></i> Quick Mixes</h2>
+            </div>
+            <div class="quick-cards-grid" id="quickCardsGrid">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Live Global Radio Highlights -->
+          <div class="section-block">
+            <div class="section-header">
+              <div>
+                <h2><i class="fa-solid fa-tower-broadcast text-green"></i> Live 24/7 Hit Radio Stations</h2>
+                <p class="section-subtitle">Stream continuous Tamil blockbusters, global pop, EDM, hip-hop, and lo-fi live right now</p>
+              </div>
+              <button class="link-btn" id="seeAllRadioBtn">Browse All Radio</button>
+            </div>
+            <div class="cards-carousel" id="homeRadioCarousel">
+              <!-- Dynamically populated live radio stations -->
+            </div>
+          </div>
+
+          <!-- Trending Tracks Section -->
+          <div class="section-block">
+            <div class="section-header">
+              <div>
+                <h2><i class="fa-solid fa-chart-line text-green"></i> Trending on Ticket2Grow</h2>
+                <p class="section-subtitle">Top curated & global online tracks</p>
+              </div>
+              <button class="link-btn" id="refreshOnlineBtn"><i class="fa-solid fa-rotate"></i> Refresh Hits</button>
+            </div>
+            
+            <div class="tracks-table-wrapper">
+              <table class="tracks-table" id="trendingTable">
+                <thead>
+                  <tr>
+                    <th width="48">#</th>
+                    <th>Title & Artist</th>
+                    <th>Album / Genre</th>
+                    <th width="80"><i class="fa-regular fa-clock"></i></th>
+                    <th width="90">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="trendingTableBody">
+                  <!-- Dynamic rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Growth & Focus Playlists -->
+          <div class="section-block">
+            <div class="section-header">
+              <div>
+                <h2><i class="fa-solid fa-seedling text-green"></i> Growth & Focus Collections</h2>
+                <p class="section-subtitle">Handpicked soundtracks engineered for productivity & flow</p>
+              </div>
+            </div>
+            <div class="cards-carousel" id="focusCardsCarousel">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+        </section>
+
+        <!-- 2. LIVE HIT RADIO VIEW -->
+        <section class="view-section" id="viewRadio">
+          <div class="section-header">
+            <div>
+              <h2><i class="fa-solid fa-radio text-green"></i> Live Global & Tamil Hit Radio Stations</h2>
+              <p class="section-subtitle">24/7 Unrestricted live streams &bull; AR Rahman, Anirudh, Ilaiyaraaja, Yuvan, Top 40, EDM & Lo-Fi</p>
+            </div>
+            <span class="live-pulse-badge"><i class="fa-solid fa-tower-broadcast"></i> BROADCASTING LIVE</span>
+          </div>
+
+          <!-- Radio Filter Pills -->
+          <div class="radio-filter-bar" id="radioFilterBar">
+            <button class="filter-pill active" data-radio-filter="all">All Stations</button>
+            <button class="filter-pill" data-radio-filter="tamil">🔥 Tamil Hits & Kollywood</button>
+            <button class="filter-pill" data-radio-filter="pop">Top 40 & Pop</button>
+            <button class="filter-pill" data-radio-filter="edm">EDM & Dance</button>
+            <button class="filter-pill" data-radio-filter="hiphop">Hip-Hop & R&B</button>
+            <button class="filter-pill" data-radio-filter="lofi">Lo-Fi & Chill</button>
+            <button class="filter-pill" data-radio-filter="rock">Rock & Classics</button>
+            <button class="filter-pill" data-radio-filter="jazz">Jazz & Ambient</button>
+          </div>
+
+          <div class="radio-stations-grid" id="radioStationsGrid">
+            <!-- Dynamically populated radio stations -->
+          </div>
+        </section>
+
+        <!-- 3. EXPLORE / GENRES VIEW -->
+        <section class="view-section" id="viewExplore">
+          <div class="section-header">
+            <div>
+              <h2>Explore All Categories</h2>
+              <p class="section-subtitle">Browse through dynamic soundscapes</p>
+            </div>
+          </div>
+          <div class="genre-grid" id="genreCardsGrid">
+            <!-- Dynamic genre color cards -->
+          </div>
+        </section>
+
+        <!-- 4. PODCASTS VIEW -->
+        <section class="view-section" id="viewPodcasts">
+          <div class="section-header">
+            <div>
+              <h2><i class="fa-solid fa-microphone-lines text-green"></i> Ticket2Grow Podcasts & Shows</h2>
+              <p class="section-subtitle">Inspiring talk sessions, career growth, mindset coaching, and tech discussions</p>
+            </div>
+          </div>
+          <div class="podcast-grid" id="podcastCardsGrid">
+            <!-- Dynamic podcast cards -->
+          </div>
+        </section>
+
+        <!-- 4. LIKED SONGS VIEW -->
+        <section class="view-section" id="viewLiked">
+          <div class="playlist-detail-header">
+            <div class="playlist-cover liked-cover-gradient">
+              <i class="fa-solid fa-heart"></i>
+            </div>
+            <div class="playlist-info">
+              <span class="playlist-tag">PLAYLIST</span>
+              <h1 class="playlist-title">Liked Songs</h1>
+              <p class="playlist-meta" id="likedMetaText">0 songs &bull; Saved to your local library</p>
+              <div class="playlist-actions">
+                <button class="btn-primary" id="playAllLikedBtn"><i class="fa-solid fa-play"></i> Play</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="tracks-table-wrapper">
+            <table class="tracks-table">
+              <thead>
+                <tr>
+                  <th width="48">#</th>
+                  <th>Title & Artist</th>
+                  <th>Genre</th>
+                  <th width="80"><i class="fa-regular fa-clock"></i></th>
+                  <th width="90">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="likedTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+            <div class="empty-state" id="likedEmptyState">
+              <i class="fa-regular fa-heart empty-icon"></i>
+              <h3>No liked songs yet</h3>
+              <p>Click the heart icon on any track to save it to your favorites!</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. LOCAL AUDIO FILES VIEW -->
+        <section class="view-section" id="viewLocalFiles">
+          <div class="playlist-detail-header">
+            <div class="playlist-cover local-cover-gradient">
+              <i class="fa-solid fa-folder-open"></i>
+            </div>
+            <div class="playlist-info">
+              <span class="playlist-tag">OFFLINE & LOCAL STORAGE</span>
+              <h1 class="playlist-title">My Audio Files</h1>
+              <p class="playlist-meta" id="localMetaText">0 uploaded tracks &bull; Drag and drop any audio files anytime</p>
+              <div class="playlist-actions">
+                <button class="btn-primary" id="playAllLocalBtn"><i class="fa-solid fa-play"></i> Play Local</button>
+                <label for="audioFileInput" class="btn-secondary"><i class="fa-solid fa-cloud-arrow-up"></i> Add More Tracks</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Drop zone -->
+          <div class="drag-drop-zone" id="dragDropZone">
+            <i class="fa-solid fa-file-circle-plus"></i>
+            <p><strong>Drag & Drop your MP3, WAV, FLAC, or AAC files here</strong></p>
+            <span>Or click "Choose Files" from the sidebar to import</span>
+          </div>
+
+          <div class="tracks-table-wrapper">
+            <table class="tracks-table">
+              <thead>
+                <tr>
+                  <th width="48">#</th>
+                  <th>Track Name</th>
+                  <th>Format / Source</th>
+                  <th width="80"><i class="fa-regular fa-clock"></i></th>
+                  <th width="90">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="localTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 6. EQUALIZER & AUDIO STUDIO VIEW -->
+        <section class="view-section" id="viewEqualizer">
+          <div class="section-header">
+            <div>
+              <h2><i class="fa-solid fa-sliders text-green"></i> Ticket2Grow Sound Studio & Equalizer</h2>
+              <p class="section-subtitle">Real-time Web Audio API multi-band frequency processor & audio enhancers</p>
+            </div>
+          </div>
+
+          <div class="eq-studio-container">
+            <!-- Studio Master Controls -->
+            <div class="eq-presets-bar">
+              <span class="eq-label">PRESETS:</span>
+              <div class="preset-buttons" id="eqPresetButtons">
+                <button class="preset-btn active" data-preset="flat">Flat</button>
+                <button class="preset-btn" data-preset="bass-boost">Bass Boost 🔥</button>
+                <button class="preset-btn" data-preset="electronic">Electronic EDM</button>
+                <button class="preset-btn" data-preset="vocal">Vocal / Podcast</button>
+                <button class="preset-btn" data-preset="rock">Rock / Punchy</button>
+                <button class="preset-btn" data-preset="acoustic">Acoustic & Crisp</button>
+              </div>
+              <button class="btn-secondary btn-sm" id="resetEqBtn"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+            </div>
+
+            <!-- EQ Sliders Grid -->
+            <div class="eq-sliders-board">
+              <div class="eq-slider-col">
+                <div class="slider-db" id="eqVal60">0 dB</div>
+                <input type="range" class="eq-vertical-slider" id="eqBand60" min="-15" max="15" step="1" value="0" orient="vertical">
+                <span class="freq-label">60 Hz</span>
+                <span class="freq-desc">Sub Bass</span>
+              </div>
+              <div class="eq-slider-col">
+                <div class="slider-db" id="eqVal250">0 dB</div>
+                <input type="range" class="eq-vertical-slider" id="eqBand250" min="-15" max="15" step="1" value="0" orient="vertical">
+                <span class="freq-label">250 Hz</span>
+                <span class="freq-desc">Bass</span>
+              </div>
+              <div class="eq-slider-col">
+                <div class="slider-db" id="eqVal1000">0 dB</div>
+                <input type="range" class="eq-vertical-slider" id="eqBand1000" min="-15" max="15" step="1" value="0" orient="vertical">
+                <span class="freq-label">1 kHz</span>
+                <span class="freq-desc">Midrange</span>
+              </div>
+              <div class="eq-slider-col">
+                <div class="slider-db" id="eqVal4000">0 dB</div>
+                <input type="range" class="eq-vertical-slider" id="eqBand4000" min="-15" max="15" step="1" value="0" orient="vertical">
+                <span class="freq-label">4 kHz</span>
+                <span class="freq-desc">Upper Mid</span>
+              </div>
+              <div class="eq-slider-col">
+                <div class="slider-db" id="eqVal16000">0 dB</div>
+                <input type="range" class="eq-vertical-slider" id="eqBand16000" min="-15" max="15" step="1" value="0" orient="vertical">
+                <span class="freq-label">16 kHz</span>
+                <span class="freq-desc">Treble</span>
+              </div>
+            </div>
+
+            <!-- Extra Sound Enhancement Toggles -->
+            <div class="sound-fx-grid">
+              <div class="fx-card">
+                <div class="fx-header">
+                  <i class="fa-solid fa-volume-high fx-icon"></i>
+                  <div>
+                    <strong>Super Bass Booster</strong>
+                    <p>Adds low-end harmonic saturation</p>
+                  </div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="superBassToggle">
+                  <span class="slider round"></span>
+                </label>
+              </div>
+
+              <div class="fx-card">
+                <div class="fx-header">
+                  <i class="fa-solid fa-satellite-dish fx-icon"></i>
+                  <div>
+                    <strong>3D Spatial Surround</strong>
+                    <p>Broadens acoustic stereo imaging</p>
+                  </div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="spatialAudioToggle">
+                  <span class="slider round"></span>
+                </label>
+              </div>
+
+              <div class="fx-card">
+                <div class="fx-header">
+                  <i class="fa-solid fa-gauge-high fx-icon"></i>
+                  <div>
+                    <strong>Playback Speed</strong>
+                    <p>Adjust tempo without pitch distortion</p>
+                  </div>
+                </div>
+                <select id="playbackSpeedSelect" class="fx-select">
+                  <option value="0.75">0.75x (Chill)</option>
+                  <option value="1.0" selected>1.0x (Normal)</option>
+                  <option value="1.25">1.25x (Faster)</option>
+                  <option value="1.5">1.5x (Study)</option>
+                  <option value="2.0">2.0x (Podcast)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. FULLSCREEN VISUALIZER VIEW -->
+        <section class="view-section" id="viewVisualizer">
+          <div class="visualizer-container">
+            <div class="visualizer-header-bar">
+              <div class="vis-track-info">
+                <h2 id="visTitle">Select a track to visualize</h2>
+                <p id="visArtist">Ticket2Grow Audio Spectrum</p>
+              </div>
+              <div class="vis-controls">
+                <button class="pill-btn active" data-vis-mode="bars" id="visModeBars">Spectrum Bars</button>
+                <button class="pill-btn" data-vis-mode="wave" id="visModeWave">Oscilloscope Wave</button>
+                <button class="pill-btn" data-vis-mode="circular" id="visModeCircular">Circular Glow</button>
+              </div>
+            </div>
+
+            <!-- High FPS Canvas -->
+            <div class="canvas-box">
+              <canvas id="audioVisualizerCanvas"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- 9. SEARCH RESULTS VIEW -->
+        <section class="view-section" id="viewSearch">
+          <div class="section-header">
+            <div>
+              <h2>Search Results for "<span id="searchQueryText"></span>"</h2>
+              <p class="section-subtitle" id="searchResultCount">Searching online music catalog & live radio...</p>
+            </div>
+            <div class="search-loader" id="searchLoader" style="display: none;">
+              <i class="fa-solid fa-circle-notch fa-spin text-green"></i> <span>Searching online...</span>
+            </div>
+          </div>
+
+          <!-- Search Category Tabs -->
+          <div class="search-tabs-bar" id="searchTabsBar">
+            <button class="search-tab-pill active" data-search-tab="all">All Results</button>
+            <button class="search-tab-pill" data-search-tab="online">🎵 Online Songs & Remixes</button>
+            <button class="search-tab-pill" data-search-tab="radio">📻 Live Hit Radio</button>
+            <button class="search-tab-pill" data-search-tab="local">📁 Local Library</button>
+          </div>
+
+          <!-- Online Stations Matching Container -->
+          <div class="search-radio-section" id="searchRadioSection" style="display: none;">
+            <h3 class="search-section-title"><i class="fa-solid fa-radio text-green"></i> Live Radio Stations</h3>
+            <div class="radio-stations-grid" id="searchRadioGrid"></div>
+          </div>
+
+          <!-- Tracks Table Container -->
+          <div class="search-tracks-section" id="searchTracksSection">
+            <h3 class="search-section-title" id="searchTracksSectionTitle"><i class="fa-solid fa-music text-green"></i> Songs & Tracks</h3>
+            <div class="tracks-table-wrapper">
+              <table class="tracks-table">
+                <thead>
+                  <tr>
+                    <th width="48">#</th>
+                    <th>Title & Artist</th>
+                    <th>Source / Genre</th>
+                    <th width="80"><i class="fa-regular fa-clock"></i></th>
+                    <th width="90">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="searchTableBody">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- RIGHT DRAWER: Up Next Queue & Lyrics -->
+    <aside class="queue-drawer" id="queueDrawer">
+      <div class="drawer-header">
+        <div class="drawer-tabs">
+          <button class="drawer-tab active" id="tabQueueBtn">Up Next Queue</button>
+          <button class="drawer-tab" id="tabLyricsBtn">Lyrics & Info</button>
+        </div>
+        <button class="icon-btn-small" id="closeDrawerBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="drawer-content">
+        <!-- Queue Tab -->
+        <div class="drawer-tab-pane active" id="paneQueue">
+          <div class="queue-now-playing-box">
+            <span class="pane-sub">NOW PLAYING</span>
+            <div class="queue-track-row current" id="queueCurrentTrack">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <div class="queue-list-section">
+            <div class="queue-sub-header">
+              <span class="pane-sub">NEXT IN QUEUE</span>
+              <button class="text-btn-green" id="clearQueueBtn">Clear</button>
+            </div>
+            <div class="queue-items-list" id="queueItemsList">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Lyrics Tab -->
+        <div class="drawer-tab-pane" id="paneLyrics">
+          <div class="lyrics-container" id="lyricsContainer">
+            <p class="lyrics-line active">Play a track to view synchronized vibes and lyrics.</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- BOTTOM PERSISTENT PLAYER BAR -->
+    <footer class="player-bar" id="playerBar">
+      
+      <!-- Left: Track Info & Thumbnail -->
+      <div class="player-track-info">
+        <div class="player-thumb-wrapper" id="playerThumbWrapper">
+          <img src="ticket2grow_app_icon.svg" alt="Album Cover" class="player-thumb" id="playerCoverImg">
+          <div class="playing-pulse-ring" id="playingPulseRing"></div>
+        </div>
+        <div class="player-meta">
+          <div class="player-title-scroller">
+            <h4 class="player-title" id="playerTitle">Ticket2Grow Music</h4>
+          </div>
+          <p class="player-artist" id="playerArtist">Select a track to start listening</p>
+        </div>
+        <button class="icon-btn-inline like-btn" id="playerLikeBtn" title="Save to Liked Songs">
+          <i class="fa-regular fa-heart"></i>
+        </button>
+      </div>
+
+      <!-- Center: Controls & Scrubber -->
+      <div class="player-center-controls">
+        <div class="main-buttons-row">
+          <button class="icon-control-btn" id="shuffleBtn" title="Shuffle (Ctrl+S)">
+            <i class="fa-solid fa-shuffle"></i>
+          </button>
+          
+          <button class="icon-control-btn" id="prevBtn" title="Previous (Left Arrow)">
+            <i class="fa-solid fa-backward-step"></i>
+          </button>
+          
+          <button class="play-pause-circle" id="mainPlayPauseBtn" title="Play / Pause (Spacebar)">
+            <i class="fa-solid fa-play" id="mainPlayIcon"></i>
+          </button>
+          
+          <button class="icon-control-btn" id="nextBtn" title="Next (Right Arrow)">
+            <i class="fa-solid fa-forward-step"></i>
+          </button>
+          
+          <button class="icon-control-btn" id="repeatBtn" title="Repeat (Off / All / One)">
+            <i class="fa-solid fa-repeat"></i>
+          </button>
+        </div>
+
+        <!-- Seek Scrubber -->
+        <div class="scrubber-row">
+          <span class="time-label" id="currentTimeLabel">0:00</span>
+          <div class="progress-bar-container" id="progressBarContainer">
+            <div class="progress-buffer-bar" id="progressBufferBar"></div>
+            <div class="progress-current-bar" id="progressCurrentBar">
+              <div class="progress-thumb-knob"></div>
+            </div>
+          </div>
+          <span class="time-label" id="durationTimeLabel">0:00</span>
+        </div>
+      </div>
+
+      <!-- Right: Utility Controls & Volume -->
+      <div class="player-right-controls">
+        <button class="icon-control-btn" id="playerLyricsToggle" title="Lyrics & Info">
+          <i class="fa-solid fa-align-left"></i>
+        </button>
+
+        <button class="icon-control-btn" id="playerQueueToggle" title="Play Queue">
+          <i class="fa-solid fa-list-ul"></i>
+        </button>
+
+        <div class="volume-control-box">
+          <button class="icon-control-btn" id="volumeMuteBtn" title="Mute / Unmute">
+            <i class="fa-solid fa-volume-high" id="volumeIcon"></i>
+          </button>
+          <div class="volume-slider-container" id="volumeSliderContainer">
+            <div class="volume-level-bar" id="volumeLevelBar"></div>
+            <input type="range" id="volumeRangeInput" min="0" max="1" step="0.01" value="0.8" aria-label="Volume">
+          </div>
+        </div>
+
+        <button class="icon-control-btn" id="playerFullscreenToggle" title="Fullscreen Visualizer">
+          <i class="fa-solid fa-expand"></i>
+        </button>
+      </div>
+
+    </footer>
+
+    <!-- Audio Element (Controlled via Web Audio API) -->
+    <audio id="audioEngine" preload="metadata" crossorigin="anonymous"></audio>
+
+  </div>
+
+  <!-- CREATE PLAYLIST MODAL -->
+  <div class="modal-overlay" id="createPlaylistModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Create New Playlist</h3>
+        <button class="icon-btn-small modal-close" id="closePlaylistModal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <label for="playlistNameInput" class="form-label">Playlist Name</label>
+        <input type="text" id="playlistNameInput" class="form-input" placeholder="e.g. Midnight Coding Beats">
+        
+        <label for="playlistDescInput" class="form-label">Description (Optional)</label>
+        <textarea id="playlistDescInput" class="form-textarea" placeholder="Give your playlist a vibe..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancelPlaylistModal">Cancel</button>
+        <button class="btn-primary" id="savePlaylistBtn">Create Playlist</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
